@@ -119,6 +119,16 @@
   <ItemGroup>
     <None Include="Scripts\jquery-2.0.3.min.map" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GoldUSD.Data\GoldUSD.Data.csproj">
+      <Project>{26E67480-63B1-4682-A6AB-3CCB10E7B203}</Project>
+      <Name>GoldUSD.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GoldUSD.Infrastructure\GoldUSD.Infrastructure.csproj">
+      <Project>{5B0E60AE-7C48-4C9A-B254-7D56683AB6C1}</Project>
+      <Name>GoldUSD.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

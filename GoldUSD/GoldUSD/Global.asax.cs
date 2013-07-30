@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using GoldUSD.Infrastructure.Unity;
 
 namespace GoldUSD
 {
@@ -31,6 +32,8 @@ namespace GoldUSD
 
         protected void Application_Start()
         {
+            UnityConfiguration.Setup();
+
             AreaRegistration.RegisterAllAreas();
 
             RegisterGlobalFilters(GlobalFilters.Filters);
