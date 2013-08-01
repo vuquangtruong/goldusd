@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" href="@Url.Content("~/Content/css/validation.css")" type="text/css" />
+        <script type="text/javascript" src="@Url.Content("~/Scripts/jquery-2.0.3.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+        <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")"></script>
+        <script type="text/javascript">
+            $(function() {
+                $.ajaxSetup({
+                    cache: false
+                });
+            });
+        </script>
+        @RenderSection("Header",false)
+    </head>
+    <body>
+        <div style="float: left; width: 20%;">
+            <ul>
+                <li>@Html.ActionLink("Quản lí tỉ giá", "PriceManagement", "Admin")</li>
+                <li>@Html.ActionLink("Quản lí tài khoản", "UserManagement", "Admin")</li>
+                <li>@Html.ActionLink("Đổi mật khẩu", "ChangePassword", "Admin")</li>
+                <li>@Html.ActionLink("Đăng xuất", "Logout", "Home")</li>
+            </ul>
+        </div>
+        <div id="container" style="width: 89%;margin-left: 165px;">
+            @RenderBody()
+        </div>
+    </body>
+</html>

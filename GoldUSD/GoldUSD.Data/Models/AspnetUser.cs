@@ -10,7 +10,7 @@ namespace GoldUSD.Data.Models
     [Table("aspnet_Users")]
     public class AspnetUser
     {
-        public int ApplicationId { get; set; }
+        public Guid ApplicationId { get; set; }
 
         [Key]
         public Guid UserId { get; set; }
@@ -24,8 +24,5 @@ namespace GoldUSD.Data.Models
         public bool IsAnonymous { get; set; }
 
         public DateTime LastActivityDate { get; set; }
-
-        //Navigation properties
-        public virtual List<User> Users { get; set; }
     }
 }

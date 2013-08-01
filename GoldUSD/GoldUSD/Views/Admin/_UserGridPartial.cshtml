@@ -1,0 +1,38 @@
+﻿@model GoldUSD.Models.UserGridModel
+@{
+    var userGrid = new WebGrid(canSort: false, canPage: false);
+    if (Model.Users != null && Model.Users.Any())
+    {
+        userGrid.Bind(Model.Users, autoSortAndPage: false);
+    }
+    else
+    {
+        userGrid = null;
+    }
+
+    if (userGrid != null)
+    {
+        @userGrid.GetHtml(htmlAttributes:new { border = "1px;"},columns: new[]
+                                       {
+                                           userGrid.Column("AspnetUser.UserName", "Tên đăng nhập"),
+                                           userGrid.Column(header:"Ngày hết hạn", format:(item) => item.ExpireDate.ToString("dd/MM/yyyy HH:mm")),
+                                           userGrid.Column(header: "", format: item => MvcHtmlString.Create(string.Format(@"<a href='javascript:void(0)' onclick=""deleteUser('{0}')"" >Xóa</a> <a class='action' href='{1}'>Sửa</a>", item.Id.ToString(), Url.Action("EditUser", "Admin", new { id = item.Id.ToString() }))))
+                                       })
+    }
+}
+<script type="text/javascript">
+    $(function () {
+        $('.action').click(function () {
+            $("#container").load($(this).attr('href'));
+            return false;
+        });
+    });
+
+    function deleteUser(id) {
+        if (confirm("Bạn có chắc muốn xóa tài khoản này ?")) {
+            $("#hiddenUser").val(id);
+            $("#formUser").submit();
+            $("#hiddenUser").val("");
+        }
+    }
+</script>

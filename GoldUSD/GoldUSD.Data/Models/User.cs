@@ -9,7 +9,6 @@ namespace GoldUSD.Data.Models
 {
     public class User
     {
-        [Key]
         public Guid Id { get; set; }
 
         public DateTime ExpireDate { get; set; }

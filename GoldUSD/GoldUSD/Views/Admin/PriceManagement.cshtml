@@ -1,0 +1,36 @@
+﻿@model GoldUSD.Models.PriceManagementModel
+@{
+    ViewBag.Title = "PriceManagement";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section Header
+{
+    <script type="text/javascript">
+        $(function () {
+            $("#selectPriceType").change(function () {
+                $("#formPrice").submit();
+            });
+        });
+
+        function deletePrice(id) {
+            if (confirm("Bạn có muốn xóa tỉ giá này ?")) {
+                $("#hiddenPrice").val(id);
+                $("#formPrice").submit();
+                $("#hiddenPrice").val("");
+            }
+        }
+    </script>
+}
+<h2>Quản lí tỉ giá</h2>
+
+@{
+    using (Ajax.BeginForm("PriceGrid", "Admin", new AjaxOptions {HttpMethod = "POST", UpdateTargetId = "priceGridContainer"}, new {id = "formPrice"}))
+    {
+        @Ajax.ActionLink("Thêm mới", "EditPrice", "Admin", new AjaxOptions { UpdateTargetId = "container" })
+        <div>Loại giá : @Html.DropDownListFor(m => m.SelectedPriceType, Model.PriceTypes, new {id = "selectPriceType"})</div>
+        <div id="priceGridContainer">
+            @Html.Action("PriceGrid", "Admin")
+        </div>
+        @Html.HiddenFor(m => m.DeletePriceId, new {id = "hiddenPrice"})
+    }
+}

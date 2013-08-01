@@ -65,10 +65,21 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChangePasswordModel.cs" />
+    <Compile Include="Models\EditPriceModel.cs" />
+    <Compile Include="Models\EditUserModel.cs" />
+    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\PriceGridModel.cs" />
+    <Compile Include="Models\PriceManagementModel.cs" />
+    <Compile Include="Models\UserGridModel.cs" />
+    <Compile Include="Models\UserListModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Main.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -77,10 +88,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\qc.css" />
+    <Content Include="Content\css\validation.css" />
+    <Content Include="Content\images\vntlogin.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-2.0.3-vsdoc.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -99,10 +115,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\css\" />
-    <Folder Include="Content\images\" />
-    <Folder Include="Models\" />
-    <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -118,6 +130,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\jquery-2.0.3.min.map" />
+    <Content Include="Views\Shared\_AdminLayout.cshtml" />
+    <Content Include="Views\Admin\PriceManagement.cshtml" />
+    <Content Include="Views\Admin\_PriceGridPartial.cshtml" />
+    <Content Include="Views\Admin\_EditPricePartial.cshtml" />
+    <Content Include="Views\Admin\UserManagement.cshtml" />
+    <Content Include="Views\Admin\_UserListPartial.cshtml" />
+    <Content Include="Views\Admin\_EditUserPartial.cshtml" />
+    <Content Include="Views\Admin\_UserGridPartial.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Admin\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GoldUSD.Data\GoldUSD.Data.csproj">
@@ -127,6 +149,10 @@
     <ProjectReference Include="..\GoldUSD.Infrastructure\GoldUSD.Infrastructure.csproj">
       <Project>{5B0E60AE-7C48-4C9A-B254-7D56683AB6C1}</Project>
       <Name>GoldUSD.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GoldUSD.Utilities\GoldUSD.Utilities.csproj">
+      <Project>{4076CDEC-A886-4745-AC6A-DA89B2FB6BB7}</Project>
+      <Name>GoldUSD.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

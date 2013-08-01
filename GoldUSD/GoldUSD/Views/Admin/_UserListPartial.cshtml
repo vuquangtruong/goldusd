@@ -1,0 +1,14 @@
+﻿@model GoldUSD.Models.UserListModel
+<h2>Quản lí tài khoản</h2>
+@Ajax.ActionLink("Tạo tài khoản mới", "EditUser", "Admin", new AjaxOptions { UpdateTargetId = "container" })
+
+@using (Ajax.BeginForm("UserList", "Admin", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "userGridContainer" }, new { id = "formUser" }))
+{
+    <div>
+        Tìm kiếm tài khoản : @Html.TextBoxFor(m => m.SeachUsername) <input type="submit" value="Tìm"/>
+    </div>
+    <div id="userGridContainer">
+        @Html.Action("UserGrid", "Admin")
+    </div>
+    @Html.HiddenFor(m => m.DeleteUserId, new { id = "hiddenUser" })
+}
