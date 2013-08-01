@@ -1,0 +1,10 @@
+﻿.validation-summary-errors,
+.field-validation-error {
+    color: red
+}
+.input-validation-error {
+    background-color: #FFEEEE;
+}
+.field-validation-error{
+	font-size:12px;
+}

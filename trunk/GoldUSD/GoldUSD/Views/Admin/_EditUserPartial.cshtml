@@ -1,0 +1,87 @@
+﻿@model GoldUSD.Models.EditUserModel
+@using (Ajax.BeginForm("EditUser", "Admin", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "container" }))
+{
+    <h2>
+        @{
+            if (Model.UserId == null)
+            {
+                <text>Tạo tài khoản</text>
+            }
+            else
+            {
+                <text>Sửa tài khoản</text>
+            }
+        }</h2>
+    <table>
+        <tr>
+            <td>
+                Tên đăng nhập
+            </td>
+            <td>
+                @{
+                    var htmlAttr = new Dictionary<string, object>();
+                    if (Model.UserId.HasValue)
+                    {
+                        htmlAttr.Add("readonly", true);
+                    }
+                }
+                @Html.TextBoxFor(m => m.Username, htmlAttr)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Mật khẩu
+            </td>
+            <td>
+                @{
+                    var passwordAttr = new Dictionary<string, object>();
+                    if (Model.UserId == null)
+                    {
+                        passwordAttr.Add("data-val-required", "Mật khẩu không được để trống");
+                    }
+                }
+                @Html.PasswordFor(m => m.Password, passwordAttr)
+            </td>
+        </tr>
+        @if (Model.ExpireDate.HasValue)
+        {
+            <tr>
+                <td>
+                    Ngày hết hạn
+                </td>
+                <td>
+                    @Model.ExpireDate.Value.ToString("dd/MM/yyyy HH:ss")
+                </td>
+            </tr>
+        }
+        @if (Model.UserId.HasValue)
+        {
+            <tr>
+                <td>Gia hạn</td>
+                <td>@Html.CheckBoxFor(m => m.IsExtend)</td>
+            </tr>
+        }
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Lưu" />
+                <input type="button" onclick="$('#container').load('@Url.Action("UserList", "Admin")')" value="Quay về"/>
+            </td>
+        </tr>
+    </table>
+    @Html.HiddenFor(m => m.UserId)
+    @Html.ValidationSummary()
+}
+<script type="text/javascript">
+    $(function() {
+        //Re-apply unobtrusive jquery validation, it doesn't work when loading partial view by ajax.
+        $("form").removeData("validator");
+        $("form").removeData("unobtrusiveValidation");
+        $.validator.unobtrusive.parse("form");
+        @{
+            if (TempData["SaveSuccess"] != null)
+            {
+                @:alert('Tài khoản đã được lưu thành công !');
+            }
+        }
+    })
+</script>

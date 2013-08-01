@@ -1,0 +1,83 @@
+﻿@model GoldUSD.Models.UserModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Index</title>
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/qc.css")" type="text/css" />
+</head>
+    <body>
+        @{
+            foreach (var priceType in Model.PriceTypes)
+            {
+                <table width="300" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#cccccc"
+                       style="border-collapse: collapse">
+                    <tr>
+                        <td height="30" colspan="5" align="center" bgcolor="#999999">
+                            <span class="titletext1"><font color="#FFFFFF">@priceType.Name.ToUpper()</font></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="100" height="30" align="center" bgcolor="#CC0000">
+                            <span class="menutext">SYMBOL</span>
+                        </td>
+                        <td width="100" align="center" bgcolor="#CC0000">
+                            <span class="menutext">MUA VÀO</span>
+                        </td>
+                        <td width="100" align="center" bgcolor="#CC0000">
+                            <span class="menutext">BÁN RA </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" align="center" bordercolor="#e3dfdf" valign="top">
+                            <table cellspacing="0" cellpadding="0" width="300" bgcolor="#cccccc" border="0" align="center">
+                                <tbody>
+                                    @{
+                                        int count = 1;
+                                        foreach (var price in priceType.Prices)
+                                        {
+                                            <tr @{
+                                                    if (count%2 > 0)
+                                                    {
+                                                        <text>style = "height: 25px; background-color: #e3dfdf"</text>
+                                                    }
+                                                }  >
+                                                <td width="100" height="25" align="center" valign="middle" class="contenttextb">
+                                                    @price.Symbol.ToUpper()
+                                                </td>
+                                                <td width="100" height="25" align="right" valign="middle" class="contenttextb">
+                                                    @price.BuyingPrice
+                                                </td>
+                                                <td width="100" height="25" align="right" valign="middle" class="contenttextb">
+                                                    @price.SellingPrice
+                                                </td>
+                                            </tr>
+                                            count++;
+                                        }
+                                    }
+                                    
+                                    <tr>
+                                        <td height="5" align="center" valign="middle" bgcolor="#FFFF66">
+                                        </td>
+                                        <td height="5" align="center" valign="middle" bgcolor="#FFFF66">
+                                        </td>
+                                        <td height="5" align="center" valign="middle" bgcolor="#FFFF66">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <br />
+                <br />
+            }
+        }
+        
+        <p align="center">
+            Tài khoản: @Model.User.AspnetUser.UserName - Ng&agrave;y h&#7871;t h&#7841;n: @Model.User.ExpireDate.ToString("dd-MM-yyyy HH:mm")<br />
+            @Html.ActionLink("Đăng xuất","Logout","Home")</p>
+    </body>
+</html>

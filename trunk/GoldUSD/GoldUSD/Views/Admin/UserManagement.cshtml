@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "UserManagement";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section Header
+{
+    <script type="text/javascript">
+        function deleteUser(id) {
+            if (confirm("Bạn có muốn xóa tài khoản này ?")) {
+                $("#hiddenUser").val(id);
+                $("#formUser").submit();
+                $("#hiddenUser").val("");
+            }
+        }
+    </script>
+}
+@Html.Action("UserList","Admin")

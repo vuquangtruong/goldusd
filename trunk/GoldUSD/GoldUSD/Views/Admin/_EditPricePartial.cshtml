@@ -1,0 +1,65 @@
+﻿@model GoldUSD.Models.EditPriceModel
+<h2>@{
+        if (Model.Id == null)
+        {
+            <text>Tạo tỉ giá</text>
+        }
+        else
+        {
+            <text>Sửa tỉ giá</text>
+        }
+    }</h2>
+@using (Ajax.BeginForm("EditPrice", "Admin", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "container" }))
+{
+    <table>
+        <tr>
+            <td>
+                Kí hiệu
+            </td>
+            <td>@Html.TextBoxFor(m => m.Symbol)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Mua vào
+            </td>
+            <td>@Html.TextBoxFor(m => m.BuyingPrice)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Bán ra
+            </td>
+            <td>@Html.TextBoxFor(m => m.SellingPrice)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Loại tỉ giá
+            </td>
+            <td>@Html.DropDownListFor(m => m.PriceTypeId, Model.PriceTypes)
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Lưu" />
+                <input type="button" value="Quay về" onclick="window.location='@Url.Action("PriceManagement", "Admin")'"/>
+            </td>
+        </tr>
+    </table>
+    @Html.ValidationSummary()
+}
+<script type="text/javascript">
+    //Re-apply unobtrusive jquery validation, it doesn't work when loading partial view by ajax.
+        $("form").removeData("validator");
+        $("form").removeData("unobtrusiveValidation");
+        $.validator.unobtrusive.parse("form");
+        $(function() {
+            @{
+                if (TempData["SaveSuccess"] != null)
+                {
+                @:alert('Tỉ giá đã được lưu thành công !');
+            }
+        }
+        });
+</script>

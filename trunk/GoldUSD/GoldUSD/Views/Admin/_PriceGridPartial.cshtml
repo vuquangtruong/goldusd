@@ -1,0 +1,32 @@
+﻿@model GoldUSD.Models.PriceGridModel
+@{
+    var priceGrid = new WebGrid(canSort: false, canPage: false);
+    if (Model.Prices != null && Model.Prices.Any())
+    {
+        priceGrid.Bind(Model.Prices, autoSortAndPage: false);
+    }
+    else
+    {
+        priceGrid = null;
+    }
+
+    if (priceGrid != null)
+    {
+        @priceGrid.GetHtml(htmlAttributes: new {border = "1px;"}, columns: new[]
+                                                                               {
+                                                                                   priceGrid.Column("Symbol", "Mã"),
+                                                                                   priceGrid.Column("BuyingPrice", "Mua vào"),
+                                                                                   priceGrid.Column("SellingPrice", "Bán ra"),
+                                                                                   priceGrid.Column(header: "", format: item => MvcHtmlString.Create(string.Format("<a href='javascript:void(0)' onclick='deletePrice({0})' >Xóa</a> <a class='action' href='{1}'>Sửa</a>", item.Id, Url.Action("EditPrice", "Admin", new {id = item.Id})))),
+
+                                                                               })
+    }
+}
+<script type="text/javascript">
+    $(function() {
+        $('.action').click(function () {
+            $("#container").load($(this).attr('href'));
+            return false;
+        });
+    });
+</script>
