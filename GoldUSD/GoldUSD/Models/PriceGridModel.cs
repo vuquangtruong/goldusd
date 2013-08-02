@@ -9,5 +9,6 @@ namespace GoldUSD.Models
     public class PriceGridModel
     {
         public List<Price> Prices { get; set; }
+        public List<PriceType> PriceTypes { get; set; }
     }
 }

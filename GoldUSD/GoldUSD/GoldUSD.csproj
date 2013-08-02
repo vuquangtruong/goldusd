@@ -88,13 +88,19 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\css\dateinput.css" />
     <Content Include="Content\css\qc.css" />
     <Content Include="Content\css\validation.css" />
+    <Content Include="Content\images\next.gif" />
+    <Content Include="Content\images\prev.gif" />
     <Content Include="Content\images\vntlogin.jpg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\jquery-2.0.3-vsdoc.js" />
     <Content Include="Scripts\jquery-2.0.3.js" />
     <Content Include="Scripts\jquery-2.0.3.min.js" />
+    <Content Include="Scripts\jquery-migrate-1.1.1.js" />
+    <Content Include="Scripts\jquery-migrate-1.1.1.min.js" />
+    <Content Include="Scripts\jquery.tools.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
@@ -140,6 +146,7 @@
     <Content Include="Views\Admin\_UserGridPartial.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Admin\ChangePassword.cshtml" />
+    <Content Include="Views\Admin\NewsContentManagement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GoldUSD.Data\GoldUSD.Data.csproj">

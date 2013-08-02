@@ -13,6 +13,7 @@ namespace GoldUSD.Data
         public DbSet<User> Users { get; set; }
         public DbSet<PriceType> PriceTypes { get; set; }
         public DbSet<Price> Prices { get; set; }
+        public DbSet<NewsContent> NewsContents { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

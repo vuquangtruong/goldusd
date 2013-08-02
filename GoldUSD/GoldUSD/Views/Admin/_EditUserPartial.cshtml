@@ -3,27 +3,28 @@
 {
     <h2>
         @{
-            if (Model.UserId == null)
-            {
-                <text>Tạo tài khoản</text>
-            }
-            else
-            {
-                <text>Sửa tài khoản</text>
-            }
-        }</h2>
+    if (Model.UserId == null)
+    {
+            <text>Tạo tài khoản</text>
+    }
+    else
+    {
+            <text>Sửa tài khoản</text>
+    }
+        }
+    </h2>
     <table>
         <tr>
-            <td>
+            <td style="width: 100px;">
                 Tên đăng nhập
             </td>
             <td>
                 @{
-                    var htmlAttr = new Dictionary<string, object>();
-                    if (Model.UserId.HasValue)
-                    {
-                        htmlAttr.Add("readonly", true);
-                    }
+    var htmlAttr = new Dictionary<string, object>();
+    if (Model.UserId.HasValue)
+    {
+        htmlAttr.Add("readonly", true);
+    }
                 }
                 @Html.TextBoxFor(m => m.Username, htmlAttr)
             </td>
@@ -34,11 +35,11 @@
             </td>
             <td>
                 @{
-                    var passwordAttr = new Dictionary<string, object>();
-                    if (Model.UserId == null)
-                    {
-                        passwordAttr.Add("data-val-required", "Mật khẩu không được để trống");
-                    }
+    var passwordAttr = new Dictionary<string, object>();
+    if (Model.UserId == null)
+    {
+        passwordAttr.Add("data-val-required", "Mật khẩu không được để trống");
+    }
                 }
                 @Html.PasswordFor(m => m.Password, passwordAttr)
             </td>
@@ -54,13 +55,51 @@
                 </td>
             </tr>
         }
-        @if (Model.UserId.HasValue)
+        <tr>
+            <td>
+                @{
+        if (Model.UserId == null)
         {
-            <tr>
-                <td>Gia hạn</td>
-                <td>@Html.CheckBoxFor(m => m.IsExtend)</td>
-            </tr>
-        }
+                    @:Thời gian hết hạn
+                     }
+        else
+        {
+                    @:Gia hạn
+                     }
+                }
+            </td>
+            <td>
+                <table>
+                    <tr>
+                        <td>@Html.RadioButtonFor(m => m.SelectedExtendMethod, 1)
+                        </td>
+                        <td>
+                            Theo tháng:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                        <td>@Html.DropDownListFor(m => m.SelectedMonth, Model.Months)<br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.RadioButtonFor(m => m.SelectedExtendMethod, 2)
+                        </td>
+                        <td>
+                            Theo ngày cố định:
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(m => m.ExtendExpireDate, new { id = "txtExtendDate" })
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
         <tr>
             <td colspan="2">
                 <input type="submit" value="Lưu" />
@@ -68,6 +107,7 @@
             </td>
         </tr>
     </table>
+    
     @Html.HiddenFor(m => m.UserId)
     @Html.ValidationSummary()
 }
@@ -77,6 +117,12 @@
         $("form").removeData("validator");
         $("form").removeData("unobtrusiveValidation");
         $.validator.unobtrusive.parse("form");
+
+        $("#txtExtendDate").dateinput({
+            format: 'dd/mm/yyyy',	// the format displayed for the user
+            selectors: true,             	// whether month/year dropdowns are shown
+            speed: 'fast',               	// calendar reveal speed
+        });
         @{
             if (TempData["SaveSuccess"] != null)
             {
