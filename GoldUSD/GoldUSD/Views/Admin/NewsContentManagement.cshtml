@@ -4,8 +4,8 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Quản li tin tuc</h2>
-Noi dung :<br/>
+<h2>Quản lí tin tức</h2>
+Nội dung :<br/>
 @using (Html.BeginForm("NewsContentManagement","Admin", FormMethod.Post))
 {
     @Html.TextAreaFor(m => m.Content, new {style = "width:500px;height:300px;"})<br/>

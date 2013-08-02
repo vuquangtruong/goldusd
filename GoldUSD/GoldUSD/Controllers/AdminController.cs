@@ -183,14 +183,14 @@ namespace GoldUSD.Controllers
                 }
                 if (model.SelectedExtendMethod == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Hay chon thoi gian het han");
+                    ModelState.AddModelError(string.Empty, "Hãy chọn thời gian hết hạn");
                     return PartialView("_EditUserPartial", model);
                 }
                 else
                 {
                     if (model.SelectedExtendMethod.Value == 2 && string.IsNullOrEmpty(model.ExtendExpireDate))
                     {
-                        ModelState.AddModelError(string.Empty, "Hay chon ngay het han");
+                        ModelState.AddModelError(string.Empty, "Hãy chọn ngày hết hạn");
                         return PartialView("_EditUserPartial", model);
                     }
                 }
@@ -217,7 +217,7 @@ namespace GoldUSD.Controllers
                 {
                     if (model.SelectedExtendMethod.Value == 2 && string.IsNullOrEmpty(model.ExtendExpireDate))
                     {
-                        ModelState.AddModelError(string.Empty, "Hay chon ngay het han");
+                        ModelState.AddModelError(string.Empty, "Hãy chọn ngày hết hạn");
                         return PartialView("_EditUserPartial", model);
                     }
 
