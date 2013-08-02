@@ -75,6 +75,13 @@
                 <br />
             }
         }
+        @{
+            if (!string.IsNullOrEmpty(Model.Content))
+            {
+                <h2 align="center">Tin tuc</h2>
+                <p align="center">@Model.Content</p>
+            }
+        }
         
         <p align="center">
             Tài khoản: @Model.User.AspnetUser.UserName - Ng&agrave;y h&#7871;t h&#7841;n: @Model.User.ExpireDate.ToString("dd-MM-yyyy HH:mm")<br />

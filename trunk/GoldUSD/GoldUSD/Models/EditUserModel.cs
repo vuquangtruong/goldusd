@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace GoldUSD.Models
 {
@@ -17,6 +18,13 @@ namespace GoldUSD.Models
         public string Password { get; set; }
 
         public DateTime? ExpireDate { get; set; }
-        public bool IsExtend { get; set; }
+
+        public List<SelectListItem> Months { get; set; }
+
+        public int? SelectedExtendMethod { get; set; }
+
+        public int SelectedMonth { get; set; }
+
+        public string ExtendExpireDate { get; set; }
     }
 }

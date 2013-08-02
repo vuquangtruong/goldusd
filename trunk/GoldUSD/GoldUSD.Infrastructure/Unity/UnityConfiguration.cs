@@ -21,7 +21,8 @@ namespace GoldUSD.Infrastructure.Unity
                 // Repositories
                 .RegisterTypeForHttpContext<IPriceTypeService, PriceTypeService>()
                 .RegisterTypeForHttpContext<IPriceService, PriceService>()
-                .RegisterTypeForHttpContext<IUserService, UserService>();
+                .RegisterTypeForHttpContext<IUserService, UserService>()
+                .RegisterTypeForHttpContext<INewsContentService, NewsContentService>();
 
 
             ControllerBuilder.Current.SetControllerFactory(typeof(UnityControllerFactory));

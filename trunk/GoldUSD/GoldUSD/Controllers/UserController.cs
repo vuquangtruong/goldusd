@@ -16,18 +16,23 @@ namespace GoldUSD.Controllers
 
         private readonly IUserService _userService;
 
-        public UserController(IPriceTypeService priceTypeService, IUserService userService)
+        private readonly INewsContentService _newsContentService;
+
+        public UserController(IPriceTypeService priceTypeService, IUserService userService, INewsContentService newsContentService)
         {
             _priceTypeService = priceTypeService;
             _userService = userService;
+            _newsContentService = newsContentService;
         }
         public ActionResult Index()
         {
             var user = _userService.DbSet.FirstOrDefault(u => u.AspnetUser.UserName == User.Identity.Name);
-            var model = new UserModel()
+
+            var model = new UserModel
                             {
                                 PriceTypes = _priceTypeService.DbSet.ToList(),
-                                User = user
+                                User = user,
+                                Content = _newsContentService.DbSet.First().Content
                             };
             return View(model);
         }

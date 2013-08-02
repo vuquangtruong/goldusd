@@ -20,28 +20,26 @@ namespace GoldUSD.Controllers
 
         private readonly IUserService _userService;
 
-        public AdminController(IPriceTypeService priceTypeService, IPriceService priceService, IUserService userService)
+        private readonly INewsContentService _newsContentService;
+
+        public AdminController(IPriceTypeService priceTypeService, IPriceService priceService, IUserService userService, INewsContentService newsContentService)
         {
             _priceTypeService = priceTypeService;
             _priceService = priceService;
             _userService = userService;
+            _newsContentService = newsContentService;
         }
 
         public ActionResult PriceManagement()
         {
-            var model = new PriceManagementModel
-                            {
-                                PriceTypes = GetPriceTypes()
-                            };
-            return View(model);
+            return View();
         }
 
         public ActionResult PriceGrid()
         {
-            var firstPriceType = _priceTypeService.DbSet.FirstOrDefault();
             var model = new PriceGridModel()
             {
-                Prices = _priceService.DbSet.Where(p => p.PriceTypeId == firstPriceType.Id).ToList()
+                PriceTypes = _priceTypeService.DbSet.ToList()
             };
             return PartialView("_PriceGridPartial", model);
         }
@@ -54,13 +52,7 @@ namespace GoldUSD.Controllers
                 _priceService.Delete(model.DeletePriceId.Value);
                 _priceService.SaveChanges();
             }
-            var priceGridModel = new PriceGridModel()
-                                     {
-                                         Prices =
-                                             _priceService.DbSet.Where(p => p.PriceTypeId == model.SelectedPriceType).
-                                             ToList()
-                                     };
-            return PartialView("_PriceGridPartial", priceGridModel);
+            return RedirectToAction("PriceGrid");
         }
 
         public ActionResult EditPrice(int? id)
@@ -162,6 +154,7 @@ namespace GoldUSD.Controllers
         public ActionResult EditUser(Guid? id)
         {
             var model = new EditUserModel();
+            model.Months = GetMonths();
             if (id.HasValue)
             {
                 var user = _userService.Find(id.Value);
@@ -175,6 +168,7 @@ namespace GoldUSD.Controllers
         [HttpPost]
         public ActionResult EditUser(EditUserModel model)
         {
+            model.Months = GetMonths();
             if (!ModelState.IsValid)
             {
                 return PartialView("_EditUserPartial", model);
@@ -187,33 +181,70 @@ namespace GoldUSD.Controllers
                     ModelState.AddModelError(string.Empty, "Tên đăng nhập này đã có trong hệ thống");
                     return PartialView("_EditUserPartial", model);
                 }
+                if (model.SelectedExtendMethod == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Hay chon thoi gian het han");
+                    return PartialView("_EditUserPartial", model);
+                }
+                else
+                {
+                    if (model.SelectedExtendMethod.Value == 2 && string.IsNullOrEmpty(model.ExtendExpireDate))
+                    {
+                        ModelState.AddModelError(string.Empty, "Hay chon ngay het han");
+                        return PartialView("_EditUserPartial", model);
+                    }
+                }
+
                 var member = Membership.CreateUser(model.Username, model.Password);
                 Roles.AddUserToRole(model.Username, AppConstant.RoleUser);
                 user.Id = Guid.Parse(member.ProviderUserKey.ToString());
-                user.ExpireDate = DateTime.Now.AddMonths(6);
+                if (model.SelectedExtendMethod == 1)
+                {
+                    user.ExpireDate = DateTime.Now.AddMonths(model.SelectedMonth);
+                }
+                else
+                {
+                    var testDate = DateTime.ParseExact(model.ExtendExpireDate, "dd/MM/yyyy", null);
+                    user.ExpireDate = new DateTime(testDate.Year, testDate.Month, testDate.Day, 23, 59, 0);
+                }
+                
                 _userService.Insert(user);
                 _userService.SaveChanges();
             }
             else
             {
+                if (model.SelectedExtendMethod != null)
+                {
+                    if (model.SelectedExtendMethod.Value == 2 && string.IsNullOrEmpty(model.ExtendExpireDate))
+                    {
+                        ModelState.AddModelError(string.Empty, "Hay chon ngay het han");
+                        return PartialView("_EditUserPartial", model);
+                    }
+
+                    if (model.SelectedExtendMethod == 1)
+                    {
+                        if (user.ExpireDate > DateTime.Now)
+                        {
+                            user.ExpireDate = user.ExpireDate.AddMonths(model.SelectedMonth);
+                        }
+                        else
+                        {
+                            user.ExpireDate = DateTime.Now.AddMonths(model.SelectedMonth); 
+                        }
+                    }
+                    else
+                    {
+                        var testDate = DateTime.ParseExact(model.ExtendExpireDate, "dd/MM/yyyy", null);
+                        user.ExpireDate = new DateTime(testDate.Year, testDate.Month, testDate.Day, 23, 59, 0);
+                    }
+                    _userService.Update(user);
+                    _userService.SaveChanges();
+                }
                 if (!string.IsNullOrEmpty(model.Password))
                 {
                     var member = Membership.GetUser(model.Username);
                     var oldPassword = member.ResetPassword();
                     member.ChangePassword(oldPassword, model.Password);
-                }
-                if (model.IsExtend)
-                {
-                    //If not yet expire
-                    if (user.ExpireDate > DateTime.Now)
-                    {
-                        user.ExpireDate = user.ExpireDate.AddMonths(6);
-                    }
-                    else
-                    {
-                        user.ExpireDate = DateTime.Now.AddMonths(6);
-                    }
-                    _userService.SaveChanges();
                 }
             }
             TempData["SaveSuccess"] = true;
@@ -236,6 +267,21 @@ namespace GoldUSD.Controllers
             return View(model);
         }
 
+        public ActionResult NewsContentManagement()
+        {
+            var content = _newsContentService.DbSet.First();
+            return View(new NewsContentManagementModel {Content = content.Content});
+        }
+
+        [HttpPost]
+        public ActionResult NewsContentManagement(NewsContentManagementModel model)
+        {
+            var content = _newsContentService.DbSet.First();
+            content.Content = model.Content;
+            _newsContentService.SaveChanges();
+            return View(model);
+        }
+
         private List<SelectListItem> GetPriceTypes()
         {
             var priceTypes = _priceTypeService.DbSet.ToList();
@@ -245,6 +291,16 @@ namespace GoldUSD.Controllers
                 selectList.Add(new SelectListItem { Text = priceType.Name, Value = priceType.Id.ToString() });
             }
             return selectList;
+        }
+
+        private List<SelectListItem> GetMonths()
+        {
+            var lstSelect = new List<SelectListItem>();
+            for (int i = 1; i <= 12; i++)
+            {
+                lstSelect.Add(new SelectListItem{Text = i + " tháng", Value = i.ToString()});
+            }
+            return lstSelect;
         }
     }
 }
