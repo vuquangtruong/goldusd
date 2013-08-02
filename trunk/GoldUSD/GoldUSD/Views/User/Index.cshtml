@@ -72,19 +72,18 @@
                     </tr>
                 </table>
                 <br />
-                <br />
             }
         }
         @{
             if (!string.IsNullOrEmpty(Model.Content))
             {
-                <h2 align="center">Tin tuc</h2>
-                <p align="center">@Model.Content</p>
+                <div style="text-align: center"><strong>Tin tức</strong></div>
+                <div style="margin: auto;width: 500px;text-align: center">@Model.Content</div>
             }
         }
         
         <p align="center">
-            Tài khoản: @Model.User.AspnetUser.UserName - Ng&agrave;y h&#7871;t h&#7841;n: @Model.User.ExpireDate.ToString("dd-MM-yyyy HH:mm")<br />
+            Tài khoản: @Model.User.AspnetUser.UserName - Ngày hết hạn: @Model.User.ExpireDate.ToString("dd-MM-yyyy HH:mm")<br />
             @Html.ActionLink("Đăng xuất","Logout","Home")</p>
     </body>
 </html>
