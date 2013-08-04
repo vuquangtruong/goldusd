@@ -45,13 +45,28 @@ namespace GoldUSD.Controllers
         }
 
         [HttpPost]
-        public ActionResult PriceGrid(PriceManagementModel model)
+        public ActionResult PriceGrid(PriceManagementModel model, FormCollection form)
         {
             if (model.DeletePriceId != null)
             {
                 _priceService.Delete(model.DeletePriceId.Value);
                 _priceService.SaveChanges();
+                return RedirectToAction("PriceGrid");
             }
+            var lstHiddenPrice = form.AllKeys.Where(k => k.StartsWith("hiddenPrice-"));
+            foreach (var hiddenPrice in lstHiddenPrice)
+            {
+                var id = int.Parse(form[hiddenPrice]);
+                var symbol = form["symbol-" + id];
+                var buyingPrice = int.Parse(form["buyingPrice-" + id]);
+                var sellingPrice = int.Parse(form["sellingPrice-" + id]);
+                var price = _priceService.Find(id);
+                price.Symbol = symbol;
+                price.BuyingPrice = buyingPrice;
+                price.SellingPrice = sellingPrice;
+            }
+            _priceService.SaveChanges();
+            TempData["SaveSuccess"] = true;
             return RedirectToAction("PriceGrid");
         }
 
