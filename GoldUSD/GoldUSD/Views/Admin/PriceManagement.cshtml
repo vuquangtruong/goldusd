@@ -26,11 +26,14 @@
 @{
     using (Ajax.BeginForm("PriceGrid", "Admin", new AjaxOptions {HttpMethod = "POST", UpdateTargetId = "priceGridContainer"}, new {id = "formPrice"}))
     {
-        @Ajax.ActionLink("Thêm mới", "EditPrice", "Admin", new AjaxOptions { UpdateTargetId = "container" })
-        <br/><br/>
+        @Ajax.ActionLink("Thêm mới", "EditPrice", "Admin", new AjaxOptions {UpdateTargetId = "container"})
+        <br/>
+        <br/>
         <div id="priceGridContainer">
             @Html.Action("PriceGrid", "Admin")
         </div>
-        @Html.HiddenFor(m => m.DeletePriceId, new {id = "hiddenPrice"})
+        <input type="submit" value="Lưu" />
+        @Html.ValidationSummary()
+        @Html.HiddenFor(m => m.DeletePriceId, new { id = "hiddenPrice" })
     }
 }
