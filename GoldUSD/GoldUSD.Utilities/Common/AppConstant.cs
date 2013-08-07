@@ -9,5 +9,6 @@ namespace GoldUSD.Utilities.Common
     {
         public const string RoleUser = "User";
         public const string RoleAdministrator = "Administrator";
+        public const string SessionLogin = "SessionLogin";
     }
 }

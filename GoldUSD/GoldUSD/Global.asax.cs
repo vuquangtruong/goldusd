@@ -4,7 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Security;
+using GoldUSD.Data;
 using GoldUSD.Infrastructure.Unity;
+using GoldUSD.Utilities.Common;
 
 namespace GoldUSD
 {
@@ -38,6 +41,40 @@ namespace GoldUSD
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+        }
+
+        public void Session_OnStart()
+        {
+            if (User.Identity.IsAuthenticated && Roles.IsUserInRole(User.Identity.Name, AppConstant.RoleUser))
+            {
+                using (var context = new GoldUsdContext())
+                {
+                    var user = context.Users.FirstOrDefault(u => u.AspnetUser.UserName == User.Identity.Name);
+                    user.IsLoggedIn = false;
+                    context.SaveChanges();
+                }
+                FormsAuthentication.SignOut();
+            }
+        }
+
+        public void Session_OnEnd()
+        {
+            if (Session[AppConstant.SessionLogin] != null)
+            {
+                using (var context = new GoldUsdContext())
+                {
+                    var userId = Guid.Parse(Session[AppConstant.SessionLogin].ToString());
+                    var user =
+                        context.Users.FirstOrDefault(
+                            u => u.Id == userId);
+                    user.IsLoggedIn = false;
+                    context.SaveChanges();
+                }
+                if (User.Identity.IsAuthenticated)
+                {
+                    FormsAuthentication.SignOut();
+                }
+            }
         }
     }
 }
