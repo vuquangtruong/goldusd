@@ -37,10 +37,25 @@ namespace GoldUSD.Controllers
             if (Membership.ValidateUser(model.Username, model.Password))
             {
                 var user = _userService.DbSet.FirstOrDefault(u => u.AspnetUser.UserName == model.Username);
-                if (Roles.IsUserInRole(model.Username, AppConstant.RoleUser) && user.ExpireDate <= DateTime.Now)
+                if (Roles.IsUserInRole(model.Username, AppConstant.RoleUser))
                 {
-                    ModelState.AddModelError(string.Empty, "Tài khoản đã hết hạn sử dụng");
-                    return View(model);
+                    if (user.ExpireDate <= DateTime.Now)
+                    {
+                        ModelState.AddModelError(string.Empty, "Tài khoản đã hết hạn sử dụng");
+                        return View(model);
+                    }
+                    if (user.IsLoggedIn)
+                    {
+                        ModelState.AddModelError(string.Empty, "Tài khoản này đã đăng nhập rồi");
+                        return View(model);
+                    }
+                    else
+                    {
+                        Session[AppConstant.SessionLogin] = user.Id;
+                        user.IsLoggedIn = true;
+                        _userService.Update(user);
+                        _userService.SaveChanges();
+                    }
                 }
                 FormsAuthentication.SetAuthCookie(model.Username, false);
                 if (!string.IsNullOrEmpty(returnUrl))

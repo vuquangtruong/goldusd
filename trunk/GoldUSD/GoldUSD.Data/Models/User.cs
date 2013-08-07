@@ -13,6 +13,8 @@ namespace GoldUSD.Data.Models
 
         public DateTime ExpireDate { get; set; }
 
+        public bool IsLoggedIn { get; set; }
+
         //Navigation properties
         [ForeignKey("Id")]
         public virtual AspnetUser AspnetUser { get; set; }
