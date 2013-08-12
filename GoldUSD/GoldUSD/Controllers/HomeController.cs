@@ -23,6 +23,17 @@ namespace GoldUSD.Controllers
         }
         public ActionResult Login()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                if (Roles.IsUserInRole(User.Identity.Name, AppConstant.RoleAdministrator))
+                {
+                    return RedirectToAction("PriceManagement", "Admin");
+                }
+                if (Roles.IsUserInRole(User.Identity.Name, AppConstant.RoleUser))
+                {
+                    return RedirectToAction("Index", "User");
+                }
+            }
             return View();
         }
 
