@@ -15,6 +15,8 @@ namespace GoldUSD.Data.Models
 
         public bool IsLoggedIn { get; set; }
 
+        public DateTime LastUpdate { get; set; }
+
         //Navigation properties
         [ForeignKey("Id")]
         public virtual AspnetUser AspnetUser { get; set; }

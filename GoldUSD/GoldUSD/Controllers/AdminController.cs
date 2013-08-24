@@ -222,7 +222,7 @@ namespace GoldUSD.Controllers
                     var testDate = DateTime.ParseExact(model.ExtendExpireDate, "dd/MM/yyyy", null);
                     user.ExpireDate = new DateTime(testDate.Year, testDate.Month, testDate.Day, 23, 59, 0);
                 }
-                
+                user.LastUpdate = DateTime.Now;
                 _userService.Insert(user);
                 _userService.SaveChanges();
             }
