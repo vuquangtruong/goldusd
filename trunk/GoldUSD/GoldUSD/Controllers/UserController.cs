@@ -27,7 +27,9 @@ namespace GoldUSD.Controllers
         public ActionResult Index()
         {
             var user = _userService.DbSet.FirstOrDefault(u => u.AspnetUser.UserName == User.Identity.Name);
-
+            user.LastUpdate = DateTime.Now;
+            _userService.Update(user);
+            _userService.SaveChanges();
             var model = new UserModel
                             {
                                 PriceTypes = _priceTypeService.DbSet.ToList(),
