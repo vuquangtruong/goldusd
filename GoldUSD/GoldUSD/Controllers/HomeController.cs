@@ -47,10 +47,10 @@ namespace GoldUSD.Controllers
             
             if (Membership.ValidateUser(model.Username, model.Password))
             {
-                var user = _userService.DbSet.FirstOrDefault(u => u.AspnetUser.UserName == model.Username);
-                var spanTime = DateTime.Now - user.LastUpdate;
                 if (Roles.IsUserInRole(model.Username, AppConstant.RoleUser))
                 {
+                    var user = _userService.DbSet.FirstOrDefault(u => u.AspnetUser.UserName == model.Username);
+                    var spanTime = DateTime.Now - user.LastUpdate;
                     if (user.ExpireDate <= DateTime.Now)
                     {
                         ModelState.AddModelError(string.Empty, "Tài khoản đã hết hạn sử dụng");
@@ -88,9 +88,12 @@ namespace GoldUSD.Controllers
 
         public ActionResult Logout()
         {
-            var user = _userService.DbSet.FirstOrDefault(u => u.AspnetUser.UserName == User.Identity.Name);
-            user.IsLoggedIn = false;
-            _userService.SaveChanges();
+            if (Roles.IsUserInRole(User.Identity.Name, AppConstant.RoleUser))
+            {
+                var user = _userService.DbSet.FirstOrDefault(u => u.AspnetUser.UserName == User.Identity.Name);
+                user.IsLoggedIn = false;
+                _userService.SaveChanges();
+            }
             FormsAuthentication.SignOut();
             return RedirectToAction("Login");
         }

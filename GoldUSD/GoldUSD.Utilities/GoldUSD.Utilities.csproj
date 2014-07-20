@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Common\AppConstant.cs" />
     <Compile Include="Common\MvcAttributes.cs" />
+    <Compile Include="Common\StringUtilcs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
