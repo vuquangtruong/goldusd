@@ -1,14 +1,14 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldUSD", "GoldUSD\GoldUSD.csproj", "{0D9AE35E-38F0-4E44-B2A2-46BC0BBB5FCB}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{524F61F1-0D7B-4293-B4DD-5BD642C11C0B}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldUSD", "GoldUSD\GoldUSD.csproj", "{0D9AE35E-38F0-4E44-B2A2-46BC0BBB5FCB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoldUSD.Data", "GoldUSD.Data\GoldUSD.Data.csproj", "{26E67480-63B1-4682-A6AB-3CCB10E7B203}"
 EndProject
