@@ -88,6 +88,7 @@
     <Compile Include="Models\EditPriceModel.cs" />
     <Compile Include="Models\EditUserModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\MainContentModel.cs" />
     <Compile Include="Models\PriceGridModel.cs" />
     <Compile Include="Models\PriceManagementModel.cs" />
     <Compile Include="Models\UserGridModel.cs" />
@@ -446,6 +447,7 @@
     <Content Include="Scripts\ckeditor\README.md" />
     <Content Include="Scripts\ckeditor\skins\moono\readme.md" />
     <None Include="Properties\PublishProfiles\Profile1.pubxml" />
+    <Content Include="Views\User\_MainContentPartial.cshtml" />
     <None Include="_bin_deployableAssemblies\Microsoft.Web.Infrastructure.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.Razor.dll" />
     <None Include="_bin_deployableAssemblies\System.Web.WebPages.dll" />
