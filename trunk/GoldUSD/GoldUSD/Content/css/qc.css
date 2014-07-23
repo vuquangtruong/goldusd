@@ -3,6 +3,12 @@
 	margin-bottom: 0px;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 16px;
+    background-color: #d6ae56;
+}
+#main {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 A {
@@ -180,4 +186,20 @@ A:Visited {
 	font-family: Arial, Helvetica, sans-serif;
 	font-weight: bold;
 	text-decoration:none;
+}
+
+#worldCurrency table {
+}
+.header th {
+    color: red;
+    text-align: center;
+}
+.header th, .header td, .row1 th, .row1 td, .row2 th, .row2 td {
+    padding: 0 5px;
+}
+.row1 {
+    background-color: #ebe7d8;
+}
+.row1, .row2 {
+    height: 25px;
 }

@@ -2,12 +2,19 @@
 @{
     ViewBag.Title = "NewsContentManagement";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    
 }
-
+@section Header
+{
+    <script type="text/javascript" src="@Url.Content("/Scripts/ckeditor/ckeditor.js")"></script>
+}
 <h2>Quản lí tin tức</h2>
 Nội dung :<br/>
 @using (Html.BeginForm("NewsContentManagement","Admin", FormMethod.Post))
 {
-    @Html.TextAreaFor(m => m.Content, new {style = "width:500px;height:300px;"})<br/>
+    @Html.TextAreaFor(m => m.Content, new {id = "txtContent",style = "width:500px;height:300px;"})<br/>
+    <script>
+        CKEDITOR.replace('txtContent', { language: 'vi' });
+            </script>
     <input type="submit" value="Lưu"/>
 }

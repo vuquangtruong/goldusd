@@ -289,6 +289,7 @@ namespace GoldUSD.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult NewsContentManagement(NewsContentManagementModel model)
         {
             var content = _newsContentService.DbSet.First();

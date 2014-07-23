@@ -19,14 +19,8 @@ namespace GoldUSD.Controllers
 
         public void GetQuotation()
         {
-            var message = Request.QueryString["message"];
             var phone = Request.QueryString["phone"];
             var serviceCode = Request.QueryString["service"];
-            var port = Request.QueryString["port"];
-            var main = Request.QueryString["main"];
-            var sub = Request.QueryString["sub"];
-            var id = "CL8579";
-            var pass = "123456";
             string responseMessage = "";
             foreach (var priceCategory in _priceTypeService.DbSet.ToList())
             {
@@ -37,7 +31,8 @@ namespace GoldUSD.Controllers
                                                      price.SellingPrice);
                 }
             }
-            responseMessage = StringUtil.RemoveSign4VietnameseString(responseMessage);
+            //responseMessage = StringUtil.RemoveSign4VietnameseString(responseMessage);
+            responseMessage = "He thong SMS da dung hoat dong hoan toan, rat mong quy khach thong cam!";
             Response.Write(
                 string.Format(
                     "<ClientResponse><Message><PhoneNumber>{0}</PhoneNumber><Message>{1}</Message><SMSID>{2}</SMSID><ServiceNo>{3}</ServiceNo></Message></ClientResponse>",
