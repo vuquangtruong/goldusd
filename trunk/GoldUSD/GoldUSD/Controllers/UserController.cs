@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using GoldUSD.Data.Models;
 using GoldUSD.Data.Services;
 using GoldUSD.Models;
 using GoldUSD.Utilities.Common;
@@ -28,16 +29,23 @@ namespace GoldUSD.Controllers
         }
         public ActionResult Index()
         {
-            var user = _userService.DbSet.FirstOrDefault(u => u.AspnetUser.UserName == User.Identity.Name);
-            user.LastUpdate = DateTime.Now;
-            _userService.Update(user);
-            _userService.SaveChanges();
+            var user = UpdateUserStatus();
             var model = new UserModel
                             {
-                                PriceTypes = _priceTypeService.DbSet.ToList(),
-                                User = user,
-                                Content = _newsContentService.DbSet.First().Content
+                                User = user
                             };
+
+            return View(model);
+        }
+
+        public ActionResult MainContent()
+        {
+            UpdateUserStatus();
+            var model = new MainContentModel()
+            {
+                PriceTypes = _priceTypeService.DbSet.ToList(),
+                Content = _newsContentService.DbSet.First().Content
+            };
             try
             {
                 //Get world exchange rate
@@ -53,8 +61,16 @@ namespace GoldUSD.Controllers
             catch (Exception ex)
             {
             }
+            return PartialView("_MainContentPartial", model);
+        }
 
-            return View(model);
+        private User UpdateUserStatus()
+        {
+            var user = _userService.DbSet.FirstOrDefault(u => u.AspnetUser.UserName == User.Identity.Name);
+            user.LastUpdate = DateTime.Now;
+            _userService.Update(user);
+            _userService.SaveChanges();
+            return user;
         }
     }
 }

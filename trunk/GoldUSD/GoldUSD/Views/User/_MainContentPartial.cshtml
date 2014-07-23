@@ -1,0 +1,90 @@
+﻿@model GoldUSD.Models.MainContentModel
+<table width="100%">
+    <tr>
+        <td width="50%">
+            - Liên hệ kỹ thuật: 090 320 2356 gặp Phi khi có sự cố<br/>
+            - Trang web tạm khi gặp sự cố : GOLDUSD.MOV.MN
+        </td>
+        <td>
+        </td>
+    </tr>
+</table>
+<div id="leftContent" style="width: 49%;float:left;border-right: 1px dotted #ccc;padding:0px;">
+    <iframe width="100%" height="835" frameborder="0" style="margin:0px;line-height: 0px;padding: 0px;overflow:hidden" allowtransparency="true" src="@string.Format("http://vip.giavang.net/data/GoldenPrice2.php?mode=count&dict=&tt={0}",
+                                                                                                                                                                    DateTime.Now.ToString("ddMMyyyyhhmmssffff"))" border="0" scrolling="no" ></iframe>
+    <div style="font-size: 20px;font-weight: bold;">Tin tức</div>
+    <div>
+        @Html.Raw(Model.Content)
+    </div>
+</div>
+<div id="rightContent" style="width: 49%;float:right;">
+    @{
+        foreach (var priceType in Model.PriceTypes)
+        {
+            <table width="100%" border="1" align="center" cellpadding="0" cellspacing="0" bordercolor="#cccccc"
+                   style="border-collapse: collapse">
+                <tr>
+                    <td height="30" colspan="5" align="center" bgcolor="#999999">
+                        <span class="titletext1"><font color="#FFFFFF">@priceType.Name.ToUpper()</font></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100" height="30" align="center" bgcolor="#CC0000">
+                        <span class="menutext">SYMBOL</span>
+                    </td>
+                    <td width="100" align="center" bgcolor="#CC0000">
+                        <span class="menutext">MUA VÀO</span>
+                    </td>
+                    <td width="100" align="center" bgcolor="#CC0000">
+                        <span class="menutext">BÁN RA </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3" align="center" bordercolor="#e3dfdf" valign="top">
+                        <table cellspacing="0" cellpadding="0" width="100%" bgcolor="#cccccc" border="0" align="center">
+                            <tbody>
+                                @{
+                                    int count = 1;
+                                    foreach (var price in priceType.Prices)
+                                    {
+                                        <tr @{
+                                                if (count%2 > 0)
+                                                {
+                                                    <text>style = "height: 25px; background-color: #e3dfdf"</text>
+                                                }
+                                            }  >
+                                            <td width="100" height="25" align="center" valign="middle" class="contenttextb">
+                                                @price.Symbol.ToUpper()
+                                            </td>
+                                            <td width="100" height="25" align="right" valign="middle" class="contenttextb">
+                                                @price.BuyingPrice
+                                            </td>
+                                            <td width="100" height="25" align="right" valign="middle" class="contenttextb">
+                                                @price.SellingPrice
+                                            </td>
+                                        </tr>
+                                        count++;
+                                    }
+                                }
+                                    
+                                <tr>
+                                    <td height="5" align="center" valign="middle" bgcolor="#FFFF66">
+                                    </td>
+                                    <td height="5" align="center" valign="middle" bgcolor="#FFFF66">
+                                    </td>
+                                    <td height="5" align="center" valign="middle" bgcolor="#FFFF66">
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <br />
+        }
+    }
+    <div style="font-size: 20px;font-weight: bold;">Ngoại tệ thế giới</div>
+    <div>
+        @Html.Raw(Model.WorldCurrencyHtml)
+    </div>
+</div>
