@@ -11,5 +11,6 @@ namespace GoldUSD.Models
         public User User { get; set; }
         public List<PriceType> PriceTypes { get; set; }
         public string Content { get; set; }
+        public string WorldCurrencyHtml { get; set; }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using GoldUSD.Data.Services;
@@ -36,8 +38,23 @@ namespace GoldUSD.Controllers
                                 User = user,
                                 Content = _newsContentService.DbSet.First().Content
                             };
+            try
+            {
+                //Get world exchange rate
+                var headers = new WebHeaderCollection { { "X-Requested-With", "XMLHttpRequest" } };
+                using (var client = new WebClient { Headers = headers })
+                {
+                    client.Encoding = Encoding.UTF8;
+                    var result = client.DownloadString(string.Format("http://taiem.com.vn/site/usdgoldoil.html?t={0}",
+                                                    DateTime.Now.ToString("ddMMyyyyhhmmssffff")));
+                    model.WorldCurrencyHtml = result;
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
             return View(model);
         }
-
     }
 }
