@@ -203,3 +203,19 @@ A:Visited {
 .row1, .row2 {
     height: 25px;
 }
+.price1 {
+    color: #204662;
+    text-align: right;
+}
+.price2 {
+    color: #ff0000;
+    text-align: right;
+}
+.price3 {
+    color: #000000;
+    text-align: right;
+}
+.note1 {
+    font-weight: bold;
+    text-align: center;
+}
