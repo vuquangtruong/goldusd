@@ -1,11 +1,14 @@
-﻿@model GoldUSD.Models.MainContentModel
+﻿@using System.Globalization
+@model GoldUSD.Models.MainContentModel
 <table width="100%">
     <tr>
         <td width="50%">
-            - Liên hệ kỹ thuật: 090 320 2356 gặp Phi khi có sự cố<br/>
-            - Trang web tạm khi gặp sự cố : GOLDUSD.MOV.MN
+            - Trang web tạm khi gặp sự cố : <span style="font-size: 20px;font-weight: bold">GOLDUSD.MOV.MN</span>
+            <br/>
+            - Làm việc từ thứ 2 đến thứ 7 hàng tuần,Chủ nhật và ngày lễ nghỉ
         </td>
         <td>
+            - LIÊN HỆ KỸ THUẬT: 0917816156 gặp Tuấn khi có sự cố
         </td>
     </tr>
 </table>
@@ -85,6 +88,42 @@
     }
     <div style="font-size: 20px;font-weight: bold;">Ngoại tệ thế giới</div>
     <div>
-        @Html.Raw(Model.WorldCurrencyHtml)
+        <iframe frameborder="0" scrolling="auto" style="width:100%; height:250px; display:block; border:none; " src="http://classic.easy-forex.com/en/forex.quotesbox.aspx" ></iframe>
     </div>
+    <br/>
+    <div style="font-size: 20px;font-weight: bold;">Ngoại tệ ngân hàng</div>
+    <table width="100%" cellspacing="1" cellpadding="0" style="background-color: #ffffff">
+        <tbody>
+        <tr>
+            <td height="20" align="left" colspan="4">
+                <span class="style8">Cập nhật: @DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")</span>
+            </td>
+        </tr>
+        <tr class="header">
+            <th width="17%">Tên</th>
+            <th width="28%">Mua</th>
+            <th width="28%">Chuyển khoản</th>
+            <th width="27%">Bán</th>
+        </tr>
+        @{
+            int countVcb = 1;
+            foreach (var item in Model.VcbCurrencies)
+            {
+                <tr class="@(countVcb % 2 > 0 ? "row1" : "row2")">
+                    <th>@item.Code</th>
+                    <td class="price1">@item.Buy</td>
+                    <td class="price3">@item.Transfer</td>
+                    <td class="price2">@item.Sell</td>
+                </tr>
+                countVcb++;
+            }
+        }
+        <tr>
+            <td class="note1" colspan="4">
+                Nguồn : vietcombank.com.vn
+                <br>
+                <span class="style11">Tỷ giá chỉ mang tính tham khảo.</span>
+            </td>
+        </tr>
+    </table>
 </div>

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Xml;
 using GoldUSD.Data.Models;
 using GoldUSD.Data.Services;
 using GoldUSD.Models;
@@ -27,6 +29,7 @@ namespace GoldUSD.Controllers
             _userService = userService;
             _newsContentService = newsContentService;
         }
+
         public ActionResult Index()
         {
             var user = UpdateUserStatus();
@@ -46,21 +49,42 @@ namespace GoldUSD.Controllers
                 PriceTypes = _priceTypeService.DbSet.ToList(),
                 Content = _newsContentService.DbSet.First().Content
             };
+
+            var lstVCB = new List<VcbCurrency>();
+            var xmlDoc = new XmlDocument();
             try
             {
-                //Get world exchange rate
-                var headers = new WebHeaderCollection { { "X-Requested-With", "XMLHttpRequest" } };
-                using (var client = new WebClient { Headers = headers })
+                xmlDoc.Load("https://www.vietcombank.com.vn/exchangerates/ExrateXML.aspx");
+                foreach (XmlNode xmlNode in xmlDoc.GetElementsByTagName("Exrate"))
                 {
-                    client.Encoding = Encoding.UTF8;
-                    var result = client.DownloadString(string.Format("http://taiem.com.vn/site/usdgoldoil.html?t={0}",
-                                                    DateTime.Now.ToString("ddMMyyyyhhmmssffff")));
-                    model.WorldCurrencyHtml = result;
+                    var code = xmlNode.Attributes["CurrencyCode"].Value;
+                    if (xmlNode.Name == "Exrate" &&
+                        (code == "AUD" || code == "CAD" || code == "CHF" || code == "EUR" || code == "GBP" ||
+                         code == "HKD" ||
+                         code == "JPY" || code == "SGD" || code == "THB" || code == "USD"))
+                    {
+                        lstVCB.Add(new VcbCurrency()
+                                       {
+                                           Code = code,
+                                           Buy = float.Parse(xmlNode.Attributes["Buy"].Value).ToString("0,0.00",
+                                                                                                       CultureInfo.
+                                                                                                           InvariantCulture),
+                                           Sell = float.Parse(xmlNode.Attributes["Sell"].Value).ToString("0,0.00",
+                                                                                                         CultureInfo.
+                                                                                                             InvariantCulture),
+                                           Transfer =
+                                               float.Parse(xmlNode.Attributes["Transfer"].Value).ToString("0,0.00",
+                                                                                                          CultureInfo.
+                                                                                                              InvariantCulture)
+                                       });
+                    }
                 }
+                model.VcbCurrencies = lstVCB;
             }
             catch (Exception ex)
             {
             }
+
             return PartialView("_MainContentPartial", model);
         }
 

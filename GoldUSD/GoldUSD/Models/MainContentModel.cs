@@ -10,6 +10,13 @@ namespace GoldUSD.Models
     {
         public List<PriceType> PriceTypes { get; set; }
         public string Content { get; set; }
-        public string WorldCurrencyHtml { get; set; }
+        public List<VcbCurrency> VcbCurrencies { get; set; } 
+    }
+    public class VcbCurrency
+    {
+        public string Code { get; set; }
+        public string Buy { get; set; }
+        public string Sell { get; set; }
+        public string Transfer { get; set; }
     }
 }
