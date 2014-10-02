@@ -51,39 +51,39 @@ namespace GoldUSD.Controllers
             };
 
             var lstVCB = new List<VcbCurrency>();
-            var xmlDoc = new XmlDocument();
-            try
-            {
-                xmlDoc.Load("https://www.vietcombank.com.vn/exchangerates/ExrateXML.aspx");
-                foreach (XmlNode xmlNode in xmlDoc.GetElementsByTagName("Exrate"))
-                {
-                    var code = xmlNode.Attributes["CurrencyCode"].Value;
-                    if (xmlNode.Name == "Exrate" &&
-                        (code == "AUD" || code == "CAD" || code == "CHF" || code == "EUR" || code == "GBP" ||
-                         code == "HKD" ||
-                         code == "JPY" || code == "SGD" || code == "THB" || code == "USD"))
-                    {
-                        lstVCB.Add(new VcbCurrency()
-                                       {
-                                           Code = code,
-                                           Buy = float.Parse(xmlNode.Attributes["Buy"].Value).ToString("0,0.00",
-                                                                                                       CultureInfo.
-                                                                                                           InvariantCulture),
-                                           Sell = float.Parse(xmlNode.Attributes["Sell"].Value).ToString("0,0.00",
-                                                                                                         CultureInfo.
-                                                                                                             InvariantCulture),
-                                           Transfer =
-                                               float.Parse(xmlNode.Attributes["Transfer"].Value).ToString("0,0.00",
-                                                                                                          CultureInfo.
-                                                                                                              InvariantCulture)
-                                       });
-                    }
-                }
-                model.VcbCurrencies = lstVCB;
-            }
-            catch (Exception ex)
-            {
-            }
+            //var xmlDoc = new XmlDocument();
+            //try
+            //{
+            //    xmlDoc.Load("https://www.vietcombank.com.vn/exchangerates/ExrateXML.aspx");
+            //    foreach (XmlNode xmlNode in xmlDoc.GetElementsByTagName("Exrate"))
+            //    {
+            //        var code = xmlNode.Attributes["CurrencyCode"].Value;
+            //        if (xmlNode.Name == "Exrate" &&
+            //            (code == "AUD" || code == "CAD" || code == "CHF" || code == "EUR" || code == "GBP" ||
+            //             code == "HKD" ||
+            //             code == "JPY" || code == "SGD" || code == "THB" || code == "USD"))
+            //        {
+            //            lstVCB.Add(new VcbCurrency()
+            //                           {
+            //                               Code = code,
+            //                               Buy = float.Parse(xmlNode.Attributes["Buy"].Value).ToString("0,0.00",
+            //                                                                                           CultureInfo.
+            //                                                                                               InvariantCulture),
+            //                               Sell = float.Parse(xmlNode.Attributes["Sell"].Value).ToString("0,0.00",
+            //                                                                                             CultureInfo.
+            //                                                                                                 InvariantCulture),
+            //                               Transfer =
+            //                                   float.Parse(xmlNode.Attributes["Transfer"].Value).ToString("0,0.00",
+            //                                                                                              CultureInfo.
+            //                                                                                                  InvariantCulture)
+            //                           });
+            //        }
+            //    }
+            //    model.VcbCurrencies = lstVCB;
+            //}
+            //catch (Exception ex)
+            //{
+            //}
 
             return PartialView("_MainContentPartial", model);
         }
