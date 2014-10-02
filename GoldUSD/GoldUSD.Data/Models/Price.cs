@@ -10,9 +10,9 @@ namespace GoldUSD.Data.Models
     {
         public string Symbol { get; set; }
 
-        public int BuyingPrice { get; set; }
+        public double BuyingPrice { get; set; }
 
-        public int SellingPrice { get; set; }
+        public double SellingPrice { get; set; }
 
         public int PriceTypeId { get; set; }
 

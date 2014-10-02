@@ -58,8 +58,8 @@ namespace GoldUSD.Controllers
             {
                 var id = int.Parse(form[hiddenPrice]);
                 var symbol = form["symbol-" + id];
-                var buyingPrice = int.Parse(form["buyingPrice-" + id]);
-                var sellingPrice = int.Parse(form["sellingPrice-" + id]);
+                var buyingPrice = double.Parse(form["buyingPrice-" + id]);
+                var sellingPrice = double.Parse(form["sellingPrice-" + id]);
                 var price = _priceService.Find(id);
                 price.Symbol = symbol;
                 price.BuyingPrice = buyingPrice;
