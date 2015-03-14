@@ -1,0 +1,1 @@
+a project to show money rate
